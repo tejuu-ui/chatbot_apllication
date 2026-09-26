@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="chatbot">
+
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="bot-info">
+                <div class="bot-icon">🤖</div>
+                <div>
+                    <h3>AI Assistant</h3>
+                    <span>● Online</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-body" id="chatBody">
+
+            <div class="message bot-message">
+                <div class="avatar">🤖</div>
+                <div class="message-content">
+                    <p>Hello! 👋</p>
+                    <p>How can I help you today?</p>
+                    <span class="time">Now</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input">
+
+            <input 
+                type="text" 
+                id="userInput" 
+                placeholder="Type your message..."
+                onkeypress="handleKeyPress(event)"
+            >
+
+            <button onclick="sendMessage()">➤</button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function sendMessage() {
+
+            let input = document.getElementById("userInput");
+            let message = input.value.trim();
+
+            if (message === "") {
+                return;
+            }
+
+            // User message
+            addMessage(message, "user");
+
+            input.value = "";
+
+            // Bot response
+            setTimeout(function () {
+
+                let response = getBotResponse(message);
+
+                addMessage(response, "bot");
+
+            }, 700);
+        }
+
+
+        function addMessage(message, sender) {
+
+            let chatBody = document.getElementById("chatBody");
+
+            let messageDiv = document.createElement("div");
+
+            if (sender === "user") {
+
+                messageDiv.className = "message user-message";
+
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        <p>${message}</p>
+                        <span class="time">Now</span>
+                    </div>
+                `;
+
+            } else {
+
+                messageDiv.className = "message bot-message";
+
+                messageDiv.innerHTML = `
+                    <div class="avatar">🤖</div>
+                    <div class="message-content">
+                        <p>${message}</p>
+                        <span class="time">Now</span>
+                    </div>
+                `;
+            }
+
+            chatBody.appendChild(messageDiv);
+
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+
+        function getBotResponse(message) {
+
+            message = message.toLowerCase();
+
+            if (message.includes("hello") || message.includes("hi")) {
+                return "Hello! 😊 Nice to meet you.";
+            }
+
+            if (message.includes("how are you")) {
+                return "I'm doing great! How can I assist you?";
+            }
+
+            if (message.includes("help")) {
+                return "Sure! I can help you with your questions.";
+            }
+
+            if (message.includes("order")) {
+                return "Sure! Please provide your order ID so I can help you track it.";
+            }
+
+            if (message.includes("thank")) {
+                return "You're welcome! 😊";
+            }
+
+            return "I'm sorry, I don't understand that yet. Could you please rephrase your question?";
+        }
+
+
+        function handleKeyPress(event) {
+
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
